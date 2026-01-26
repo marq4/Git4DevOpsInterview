@@ -1,0 +1,8 @@
+_ WRONG BRANCH COMMIT _ 
+* Problem: Committed to main instead of feature branch. 
+
+* Solution: 
+	+ $ git log 				# Copy commit hash. 
+	+ $ git reset --hard HEAD~1 			# Undo mistake on main. 
+	+ $ git switch --create feature/user-undo 
+	+ $ git cherry-pick <HASH> 			# Apply to personal branch. 

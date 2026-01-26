@@ -1,0 +1,267 @@
+* Course: Git for Beginners. 
+* Instructor: Lydia Hallie. 
+* URL: https://learn.kodekloud.com/user/courses/git-for-beginners/ 
+
+
+
+* Fundamental flow jump-start: 
+	+ You just joined a new team, get the codebase to your laptop: 
+		- $ git clone <SSH_URL> 				# GitHub: big green button "Clone". 
+
+	+ Add new changes (already tracked files) to Staging Area and commit with a single command: 
+		- $ git commit -am 'Fixed typo in README' 
+		# Push to remote: 
+		- $ git push origin main 
+
+	+ Before making your first commit, tell Git who you are: 
+		1.- $ git config user.name user 
+		2.- $ git config user.email user@example.com 
+
+	+ Tell Git to completely ignore a personal file: 
+		+ $ cat >> .gitignore
+		    my-personal-notes-do-not-commit.txt 
+		    <Ctrl+D> 
+
+
+
+* Intro: 
+	+ Git:
+		- Git is an open source distributed version control system (VCS). 
+		- It is a content tracker: it stores all our code changes. 
+
+	+ VCS: Allows us to go back in time, and work with a different version of our codebase. 
+
+	+ What does it mean for a VCS to be "distributed"?
+	    Ans:  
+		- There is a remote repository stored in a server, 
+		- And a local repository in the computer of every developer working on the project. 
+		# Extra: 
+		- The alternative is a centralized VCS like SVN (Subversion). 
+
+
+* Local & remote repos: 
+	+ Local: 
+		- Is on my own machine. I have direct access. 
+		- Consists of 3 stages: 
+			' Working Area: my active changes. 							# Working Directory | Working Tree. 
+			' Staging Area: new changes soon to be committed are added. 				# Or: where changes are prepared for commit. 
+			' Committed Files: 									# Repository | Git Directory. 
+				; People commit their changes to add version control to the project. 
+				; A commit gets created when a dev commits those files. 
+	+ Remote: 
+		- Usually a centralized server. 
+		- Optional. 
+		- We can `push` code there, 
+		- And download it to a new laptop by `pulling` it. 
+		- Platforms to host it: 
+			' GitHub. 
+			' GitLab. 
+			' Bitbucket. 
+			' Others. 
+		- After we initialize it we get a connection string: 
+			' URL to tell Git where remote repo is located. 
+		- Add remote repo to local project: 
+			' $ git remote add origin <URL.git>	# Alias so we don't need to remember the URL. 
+		- List all remote repos: 
+			' $ git remote --verbose 		# Or -v 
+		- Upload changes to remote: 
+			' $ git push origin main 
+		- Make sure you're on the right place (get remote URL): 
+			' $ git config --list | grep url 
+			# Or: 
+			' $ git remote --verbose 
+
+	+ Save local changes on remote: 
+		- For backup (in case my laptop dies). 
+		- When working with a team: 
+			' Someone else initializes their own local repo. 
+			' Then pulls the data from remote. 
+			' Now they can contribute to the project 
+			  by pushing their changes to the remote repo. 
+			' Then I must pull those changes to stay in sync. 
+
+* Install: 
+	+ On Windows 10: install Git Bash. 
+	+ Get version: 
+		- $ git --version 
+		   # git version 2.34.1.windows.1 
+
+
+* Initial commands, reading the manual, and fundamental concepts: 
+	+ See usage, available subcommands: 
+		- $ git help 
+	+ Get detailed info on a subcommand: 
+		- Install WSL (Ubuntu). 
+		- $ sudo apt update && sudo apt install -y git-man 
+		- Test it: 
+			' $ git help help 
+		- Show various types of objects: 
+			' $ git show 
+			' Blobs, trees, tags, commits. 
+		- List, create, or delete branches: 
+			' $ git branch 
+		- Download objects and refs from another repository: 
+			' $ git fetch 
+			' Fetch branches and/or tags (collectively, "refs"). 
+			' From one or more other repositories. 
+		- Create an empty Git repository: 
+			' $ git init 
+			' Or reinitialize an existing one. 
+			' Running `git init` in an existing repository is safe. 
+		- Create a bare repo: 
+			' $ git init --bare 
+			# Bare repo: used as central repo on servers. No Working Directory, only Git history. 
+
+	+ What does `git init` create?
+	    Ans: 
+		- A .git directory. With subdirectories for: 
+			' Objects. 
+			' refs/heads. 
+			' refs/tags. 
+			' Template files. 
+		- An initial HEAD file that references the HEAD of the main branch. 
+		# HEAD: pointer to current commit I'm viewing, usually tip of current branch. 
+
+	+ What is ".git/"?
+	    Ans: 
+		- (A hidden folder in Linux / A folder with an awkward name in Windows). 
+		- The base of the repository. 
+		- Override by setting $GIT_DIR environment variable to another path. 
+
+
+
+* Theory basics:
+	+ What is "committing"?
+	   Ans: 
+		- Storing changes in our local Git repo. 
+		- A commit (kinda) records the change of a repo, compared to its previous state. 
+		- Commit: snapshot of our project at a point in time. 
+		- Should be a SINGLE fix or feature; releated changes. 
+		- Keep them atomic with a short message that tells exactly what it was. 
+
+	+ How do we "stage" a file?
+	   Ans: 
+		- $ git add <FILE> 
+		- Only files in the Staging Area will be commited. 
+
+	+ You accidentally overwrite a staged file. What to do?
+	    Ans: 
+		- The previous state is cached. 
+		- Restore it (revert change): 
+			' $ git restore <FILE> 
+
+
+
+* Commit history: 
+	+ See commits that have been made to the project: 
+		- $ git log 
+		- Shows: hash, author, date, message. 
+	+ See list of files. Commit info in a single line: 
+		- $ git log --name-only --oneline 
+	+ Show only the last commit: 
+		- $ git log -1 
+	+ Filter by text files only: 
+		- $ git log --name-only -- '*.txt' 
+
+
+
+* Branches: 
+	+ Default branch: 
+		- Main. 					# Legacy: Master. 
+	+ Why even bother with branches? 
+	    Ans: 
+		- We can't risk giving the new person the chance to break PROD. 
+		- They can work on a branch: "feature/new-sigup". 
+		- Only after their changes have been tested will we consider getting them into main. 
+		- Before that, we can continue fixing bugs in PROD. 
+	+ What is a branch?
+	    Ans: 
+		- Basically, a pointer to the last commit. 
+	+ Create a new branch and switch to it: 
+		- $ git checkout -b my-new-branch 
+		# Only create a new branch: 
+		- $ git branch bugfix/landing-page-subtitle 
+	+ List all branches, see which we're currently on: 
+		- $ git branch 
+	+ Select / move to another branch: 
+		- $ git switch development 
+
+	+ Merging: 
+		- Your new feature is complete, tested and approved. Merge it into main: 
+			' $ git switch main 
+			' $ git merge feature/automated-upload 
+		- 2 types of merge: 
+			' Fast-forward: 
+				; Doesn't create a new commit, 
+				; Simply adds the commits, 
+				; As main has no additional commits we don't have. 
+				; (Rarely the case). 
+			' No-fast-forward: 
+				; Usually main WILL have more commits than when we 
+				  first created our branch. 
+				; Creates a new merging commit. 
+
+	# `checkout` VS `switch`: `checkout` is an older, multi-purpose command that does too much. Now we have `switch` and `restore`. 
+
+	+ Would you simply merge your feature branch into main? 
+	    Ans: 
+		- When working with a team, no. 
+		- I would push to my branch, then create PR (pull request) on GitHub. 
+		- I would only merge into main after the PR is approved. 
+		- I may not even have the necessary permissions and would instead ask someone else to merge the PR. 
+
+	+ What is the difference between fetching and pulling? 
+	    Ans: 
+		- Fetching: download commit only, don't move HEAD. 
+		# See remote branches (for merging after fetching): 
+			# $ git branch --all 
+		- Pulling: fetching + merging. 
+
+	+ Rebasing: 
+		+ `git rebase`: Reapply commits on top of another base tip. 
+		+ Put one branch on top of another one. 
+		+ Differences with merging: 
+			- Replays commits, so new commit hashes. 
+			- No merge commit. 
+		+ Use it to change the history of your private branch, to pretent that 
+		    many commits were just one. Interactively rebase last 4 commits: 
+			- # Double-check you're in your own private branch: 
+			- $ git branch --verbose 
+			- # Verify last 4 commits is what you want: 
+			- $ git log --oneline 
+			- $ git rebase --interactive HEAD~4 --verbose 
+				# Leave "pick" for top commit, set "squash" for other 3 	# To meld. 
+			- Now latest branch commit contains previous 4 combined. 
+
+	+ Cherrypick: apply specific commit(s) from one branch to another branch (without merging entire branch). 
+
+
+
+
+
+* Save incomplete work to quickly fix main (without commit): 
+	+ $ git stash push 
+	# Go back to work: 
+	+ $ git stash pop 				# Stash is a stack. See it: `git stash list`. 
+
+
+
+
+* Mistake Recovery: 
+	+ Resetting & Reverting: 
+		- An experimental feature was added to QA env. It didn't work. 
+		  You are tasked with completely returning to the previous state 
+		   before that commit was pushed to QA: 
+			' $ git revert <HASH> 
+			# It's like creating an anti-commit. 
+
+		- You tried being proactive and refactored some code. 
+		   Turns out you also introduced a bug. You already know how to fix it: 
+			' $ git reset --soft HEAD~1 
+			# Now you once again have access to the changes. It's like un-commit. 
+
+		- Your colleague frantically calls you on a Sunday and tells you that 
+		   last night he jokingly drunk-pushed a commit with profanity. 
+		   He could loose his job! 
+			' $ git reset --hard HEAD~1 
+			# Bad words removed from history, like it never happened. 

@@ -1,0 +1,90 @@
+* Challenge Questions: 
+	1.- This git command displays: 
+		+ Paths with differences between current HEAD commit and Index File, 
+		+ Paths with differences between Working Tree and Index File, 
+		+ Paths in Working Tree neither tracked nor ignored by Git. 
+	2.- And what is its default output format? 
+
+	3.- How is a commit uniquely identified? 
+
+	4.- What is a PR? 
+
+	5.- Suppose a developer has been working on a new feature for a while (in a branch). 
+	     You are tasked with editting the history of that branch, so that it looks like 
+	     that handful of commits was just one, simple, nice commit. 
+	     All that to prepare a PR to main. How would you do this? 
+
+	6.- You see this in a file: 
+		<<<<<<<<<
+		...
+		=========
+	    What does it mean and what do you do about it ? 
+
+	7.- A crutial, critical, one-line bug fix has been disclosed at today's morning meeting. 
+	     Manager asked everyone to pick it up immediately from "main" for their work. 
+
+	8.- You see --ff somewhere in the manual. What could it mean? 
+
+	9.- Is it possible to undo a hard reset? 
+
+	10.- When would you use fetch instead of pull? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Answers: 
+	1.- $ git status 		# Show the working tree status. 
+	2.- Long `--long`.		# Alternative: --short. 
+
+	3.- With its hash (SHA1). 
+
+	4.- A Pull Request (GitHub, Bitbucket) [GitLab: Merge Request] is: 
+		- A way to propose changes to a codebase. 
+		- Request someone to review and merge them to another branch. 
+		- Important to remember in the real world: 
+			' Source branch: feature/my-changes. 
+			' Target branch: main. 
+
+	5.- Re-base the commits by squashing them into a new, single commit that will be used for the PR: 
+		+ $ git switch feature/awesome-new-feature 
+		+ $ git fetch origin 
+		+ $ git rebase origin/main --interactive --verbose 
+		# Leave top as "pick", others as "s". 
+		+ $ git push --force-with-lease origin feature/awesome-new-feature 
+
+	6.- That's a merge conflict. Maybe happened after `pull`. 
+	     Edit the file: 
+		+ Remove lines added by Git (conflict markers). 
+		+ Make sure final version makes sense. 
+		# Stage, commit. 
+		+ Test the code if possible. 
+
+	7.- | 
+		+ # Make sure you're on your own local private branch: 
+		+ $ git branch --verbose 
+		+ $ git cherry-pick 1dc7e3eb86f79c21466677d06ff72eab6782007e 
+
+	8.- Fast Forward. 
+
+	9.- Yes: 
+		+ $ git reflog 
+		+ $ git reset --hard 8ad5 
+
+	10.- To review before merging: 
+		+ $ git fetch origin 
+		+ $ git diff HEAD origin/main 
+		+ # Merge or rebase. 

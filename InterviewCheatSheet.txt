@@ -1,0 +1,60 @@
+* Q1.- 
+	+ Interviewer: What are Git's 3 stages? 
+	+ Ans: 
+		- Working Directory. 		# Edit code. 
+		- Staging Area. 			# $ git add . 	# All files. 
+		- Repository. 			# $ git commit -m 'Message' 
+						# $ git push 	# local -> remote. 
+
+* Q2.- 
+	+ Interviewer: 
+			- We just gave you your new laptop. 
+			- It already has Git installed and the repo cloned. 
+			- Tell Git who you are. 
+	+ Ans: | 
+			- $ git config --global user.name "User Last-Name" 
+			- $ git config --global user.email "user@company.com" 
+			# Verify: 
+			- $ git config --list 
+
+* Q3.- 
+	+ Interviewer: Show changes per commit for a single file. 
+	+ Ans: $ git log --patch file.txt 
+
+* Q4.- 
+	+ Interviewer: Modify last commit. Maybe you realize a file is missing. 
+	+ Ans: $ git commit --amend 
+
+* Q5.- 
+	+ Interviewer: Create and move to a new branch. 
+	+ Ans: $ git switch --create feature/new-feature 
+
+* Q6.- 
+	+ Interviewer: Delete a remote branch. 
+	+ Ans: $ git push origin --delete remote-branch 
+
+* Q7.- 
+	+ Interviewer: Create a merge commit: 
+	+ Ans: | 
+		- $ git switch main 
+		- $ git merge --no-ff feature/my-first-feat 
+
+* Q8.- 
+	+ Interviewer: Merge VS rebase? 
+	+ Ans: 
+		- Merge: 
+			' Preserves history. 
+			' Creates merge commits. 
+			' Use in public branches, team collaboration. 
+		- Rebase: 
+			' Clean linear history, rewrites commits. 
+			' Use in local branches before pushing. 
+			' NEVER rebase public/shared branches. 
+
+* Q9.- 
+	+ Interviewer: Unstage a file. 
+	+ Ans: $ git restore --staged file.txt 
+
+* Q10.- 
+	+ Interviewer: Discard all local changes to start again fresh: 
+	+ Ans: $ git reset --hard HEAD 
