@@ -223,7 +223,7 @@
 		+ Differences with merging: 
 			- Replays commits, so new commit hashes. 
 			- No merge commit. 
-		+ Use it to change the history of your private branch, to pretent that 
+		+ Use it to change the history of your private branch, to pretend that 
 		    many commits were just one. Interactively rebase last 4 commits: 
 			- # Double-check you're in your own private branch: 
 			- $ git branch --verbose 
