@@ -1,0 +1,34 @@
+* See branch tracking / check if you need to pull: 
+  + $ git branch -vv
+	+ $ git remote show origin  # More detail.
+
+* Rebase beyond the interview — your team actually uses it:
+  + Refreshing local main best practices:
+    - ALWAYS pull with rebase option (or you'll get in trouble):
+      ' $ git switch main
+      ' $ git pull origin main --rebase
+      ' Make sure it's always FF (no merge, just move pointer).
+      ' Keep local main read-only.
+      ' Never push directly to main.
+      ' We always integrate changes into PROD via feature branches & PRs.
+  + Best practices for feature branches:
+    - When feat is still private, local-only (haven't pushed yet),
+      you have 2 options to fetch from main:
+        ' Refresh main, then replay your work on top of it:
+          ~ $ git switch main
+          ~ $ git pull origin main --rebase
+          ~ $ git switch feat
+          ~ $ git rebase main
+        ' Shortcut to focus only on feat (local main not updated):
+          ~ $ git switch feat
+          ~ $ git pull origin main --rebase
+          # This is exactly was is suggested here: https://www.youtube.com/watch?v=xN1-2p06Urc
+    - Make sure you haven't pushed at all yet:
+      ' $ git remote show origin
+        # Look for feat under local branches configured for git push.
+    - Never rebase anything shared, public, or commits you have pushed.
+    - After pushing feat, just don't rebase anymore, 
+      from either remote main or feat, from then on, instead do:
+        ' $ git switch feat
+        ' $ git pull origin main --no-rebase
+        ' $ git pull origin feat --no-rebase
