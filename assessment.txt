@@ -74,6 +74,7 @@ _ Correct Answers and comments _
                 ; $ git log --oneline -5
                 # Make sure there are 3 commits above "origin/main, origin/HEAD, main".
                 ; $ git rebase --verbose --interactive HEAD~3
+                # Leave top commit as "pick", rest as "squash".
             A-2-2.4: Push (for the first time) and set upstream:
                 ~ $ git push --set-upstream origin feat3
             A-2-2.5: Create PR:
