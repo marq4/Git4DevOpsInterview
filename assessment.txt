@@ -1,0 +1,80 @@
+# Either initial or final assessment, to test your knowledge of Git:
+
+_ Cases with questions and multiple possible answers _
+
+# Basic:
+* S-1, Q-1, O1-{1-4}:
+    + Situation 1 (S-1):
+        - You see your colleague doing this:
+            ' $ git switch bugfix/qus4
+            ' $ git status
+                # 2 files tracked by Git.
+            ' $ git commit -am 'fix: qus4'
+        - Then they tell you:
+            "As soon as quality gates and automated tests pass,
+            I'll push to create a PR."
+    + Question for S-1 (Q-1):
+        - What would happen if they were to `git push origin bugfix/qus4` now?
+    + Options (for Q-1):
+        - O1-1: Git would reject it as they forgot to stage their changes
+          (`git add` missing).
+        - O1-2:
+            ' Git would reject it as only possible remote is main.
+            ' He needs to do `git push origin main` instead.
+        - O1-3: It would work, but `commit -a` is deprecated in favor of
+          '--all', which includes all files tracked by Git in the Working Area,
+          in case one forgets to `add` changes (best practice).
+        - O1-4:
+            ' They need to push their branch right now for CI to run:
+                ~ $ git switch bugfix/qus4
+                ~ $ git push --set-upstream origin bugfix/qus4
+            ' `commit -a` adds changes to Staging Area (convenient shortcut).
+            ' Once PR is approved they need to:
+                ~ Make sure to have all latest changes from PROD:
+                    ; $ git switch bugfix/qus4
+                    ; $ git pull origin main --no-rebase    # Or DO rebase before pushing (while branch is still {local-only, private}).
+                ~ Promote work to PROD by clicking "Rebase and merge" on GitHub's web UI.
+                    # Assuming they already pushed bugfix branch at least once (with '-u' option).
+
+# Advanced:
+* S-2, Q-2, O2-{1-2}:
+    + Situation 2 (S-2):
+        - You created a branch, made changes, committed 3 times.
+        - Now you want to prepare a PR following best practices.
+        - You also want to impress the team & manager.
+    + Question for S-2 (Q-2): what do you do?
+    + Options (for Q-1):
+        - O2-1: 
+            ~ Keep it simple and just click "Create PR" on web UI, 
+            ~ After pushing your branch to remote feat3 with '-u' option.
+        - O2-2: get fancy and rebase with squash, then push, then create PR.
+
+_ Correct Answers and comments _
+
+* A-1 for S-1:
+    + O1-1: wrong. `git add` is not needed as `commit -a` stages the changes.
+    + O1-2: wrong.
+        - There is no default remote, not even main.
+        - We don't push changes directly to PROD.
+    + O1-3: wrong. As silly as it looks, I said this during an interview once.
+    + O1-4: correct.
+
+* A-2 for S-2:
+    + O2-1: completely fine.
+    + O2-2: 
+        - Ideal to make code review easier (single commit).
+        - Process:
+            A-2-2.1: Fetch latest changes from PROD:
+                ~ $ git switch feat3
+                ~ $ git pull origin main --rebase
+            A-2-2.2: Backup history locally:
+                # Make a backup ref before squashing (keep 3-commit history):
+                ; $ git branch backup_<DATE>/feat3
+            A-2-2.3: Rebase interactively to squash commits into one:
+                ; $ git log --oneline -5
+                # Make sure there are 3 commits above "origin/main, origin/HEAD, main".
+                ; $ git rebase --verbose --interactive HEAD~3
+            A-2-2.4: Push (for the first time) and set upstream:
+                ~ $ git push --set-upstream origin feat3
+            A-2-2.5: Create PR:
+                ~ Go to GitHub web UI and click on "Create PR".
