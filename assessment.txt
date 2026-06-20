@@ -20,7 +20,7 @@ _ Cases with questions and multiple possible answers _
           (`git add` missing).
         - O1-2:
             ' Git would reject it as only possible remote is main.
-            ' He needs to do `git push origin main` instead.
+            ' They need to do `git push origin main` instead.
         - O1-3: It would work, but `commit -a` is deprecated in favor of
           '--all', which includes all files tracked by Git in the Working Area,
           in case one forgets to `add` changes (best practice).
@@ -30,9 +30,9 @@ _ Cases with questions and multiple possible answers _
                 ~ $ git push --set-upstream origin bugfix/qus4
             ' `commit -a` adds changes to Staging Area (convenient shortcut).
             ' Once PR is approved they need to:
-                ~ Make sure to have all latest changes from PROD:
+                ~ Make sure you have all the latest changes from PROD:
                     ; $ git switch bugfix/qus4
-                    ; $ git pull origin main --no-rebase    # Or DO rebase before pushing (while branch is still {local-only, private}).
+                    ; $ git pull origin main --no-rebase
                 ~ Promote work to PROD by clicking "Rebase and merge" on GitHub's web UI.
                     # Assuming they already pushed bugfix branch at least once (with '-u' option).
 
@@ -43,7 +43,7 @@ _ Cases with questions and multiple possible answers _
         - Now you want to prepare a PR following best practices.
         - You also want to impress the team & manager.
     + Question for S-2 (Q-2): what do you do?
-    + Options (for Q-1):
+    + Options (for Q-2):
         - O2-1: 
             ~ Keep it simple and just click "Create PR" on web UI, 
             ~ After pushing your branch to remote feat3 with '-u' option.

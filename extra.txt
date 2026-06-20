@@ -1,9 +1,9 @@
 * See branch tracking / check if you need to pull: 
   + $ git branch -vv
-	+ $ git remote show origin  # More detail.
+  + $ git remote show origin  # More detail.
 
 * Rebase beyond the interview — your team actually uses it:
-  + Refreshing local main best practices:
+  + Best practices for refreshing local main:
     - ALWAYS pull with rebase option (or you'll get in trouble):
       ' $ git switch main
       ' $ git pull origin main --rebase
@@ -22,10 +22,10 @@
         ' Shortcut to focus only on feat (local main not updated):
           ~ $ git switch feat
           ~ $ git pull origin main --rebase
-          # This is exactly was is suggested here: https://www.youtube.com/watch?v=xN1-2p06Urc
+          # This is exactly what is suggested here: https://www.youtube.com/watch?v=xN1-2p06Urc
     - Make sure you haven't pushed at all yet:
       ' $ git remote show origin
-        # Look for feat under local branches configured for git push.
+        # Look for feat under "Local refs configured for 'git push'".
     - Never rebase anything shared, public, or commits you have pushed.
     - After pushing feat, just don't rebase anymore, 
       from either remote main or feat, from then on, instead do:
