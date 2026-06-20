@@ -18,7 +18,7 @@
 		<<<<<<<<<
 		...
 		=========
-	    What does it mean and what do you do about it ? 
+	    What does it mean and what do you do about it? 
 
 	7.- A crutial, critical, one-line bug fix has been disclosed at today's morning meeting. 
 	     Manager asked everyone to pick it up immediately from "main" for their work. 
