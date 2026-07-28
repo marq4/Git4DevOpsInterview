@@ -36,6 +36,22 @@ _ Cases with questions and multiple possible answers _
                 ~ Promote work to PROD by clicking "Rebase and merge" on GitHub's web UI.
                     # Assuming they already pushed bugfix branch at least once (with '-u' option).
 
+* S-4, Q-4, O4-{1-2}:
+    + Situation 4 (S-4): you want to create a new branch.
+    + Questions for S-4 (Q-4):
+        - How do you do it? 
+        - What happens if you get fancy and use '--create' option?
+    + Options (for Q-4):
+        - O4-1:
+            ' $ git branch feat/newfeat
+            ' |
+                ~ That isn't a real flag.
+                ~ Just happens to unambiguously prefix-match '--create-reflog'.
+        - O4-2:
+            ' $ git branch -c feat/newfeat
+            ' It's just the extended form (best practice).
+
+
 # Intermediate:
 * S-2, Q-2, O2-{1-6}:
     + Situation 2 (S-2):
@@ -87,6 +103,8 @@ _ Cases with questions and multiple possible answers _
             ~ After pushing your branch to remote feat3 with '-u' option.
         - O3-2: get fancy and rebase with squash, then push, then create PR.
 
+
+
 _ Correct Answers and comments _
 
 * A-1 for S-1:
@@ -135,3 +153,21 @@ _ Correct Answers and comments _
                 ~ $ git push --set-upstream origin feat3
             A-3-2.5: Create PR:
                 ~ Go to GitHub web UI and click on "Create PR".
+
+* A-4 for S-4:
+    + A4-1 for O4-1: correct. Don't get fancy.
+    + A4-2 for O4-2:
+        - |
+            ~ Option '-c' is short for '--copy', not "create".
+            ~ Copies current branch, including tracking config and reflog.
+            ~ Proof:
+                ` Try: `git branch -c src copy-of-src`.
+                ` Copies any arbitrary source branch (not just current) to new name.
+                ` That 2-argument form only makes sense for `copy` command.
+        - |
+            ~ No, '--create' is not the extended version of '-c' (`copy`).
+            ~ There is no plain '--create' option.
+            ~ It's actually '--create-reflog'.
+            ~ Just enables reflog creation for the new branch.
+            # New branch is still created by the positional argument regardless.
+            # Just use bare `git branch <new-branch-name>`.
