@@ -36,45 +36,102 @@ _ Cases with questions and multiple possible answers _
                 ~ Promote work to PROD by clicking "Rebase and merge" on GitHub's web UI.
                     # Assuming they already pushed bugfix branch at least once (with '-u' option).
 
-# Advanced:
-* S-2, Q-2, O2-{1-2}:
+# Intermediate:
+* S-2, Q-2, O2-{1-6}:
     + Situation 2 (S-2):
+        - A Jenkins job creates a Git branch on a Server, but something is wrong.
+        - You need to verify the changes (locally) with `grep`.
+    + Question for S-2 (Q-2):
+        - How do you select that branch?
+    + Options (for Q-2):
+        - O2-1:
+            ' $ git checkout --remote jj/jira-ticket-07272026   # Or even better: `switch`.
+            # grep stuff
+        - O2-2:
+            ' $ git fetch origin jj/jira-ticket-07272026
+            ' $ git switch jj/jira-ticket-07272026
+            # grep stuff
+        - O2-3:
+            ' Trick question:
+                ~ It's not possible to "download" a branch created remotely,
+                ~ So you'll need to:
+            ' Find the DNS name or IP of the Jenkins Agent box.
+            ' Connect to it: SSH, RDP, SSM.
+            ' Change directory into the Workspace of the job.
+            ' Verify the changes with `grep` there.
+        - O2-4:
+            ' $ git branch --pull jj/jira-ticket-07272026
+            ' $ git switch jj/jira-ticket-07272026
+            # grep stuff
+        - O2-5:
+            ' $ git remote fetch jj/jira-ticket-07272026
+            ' $ git switch jj/jira-ticket-07272026
+            # grep stuff
+        - O2-6:
+            ' $ git switch main
+            ' $ git status --short              # Verify local main is clean.
+            ' $ git pull origin main --rebase   # Also pulls remote branches.
+            ' $ git switch jj/jira-ticket-07272026
+            # grep stuff
+
+# Advanced:
+* S-3, Q-3, O3-{1-2}:
+    + Situation 3 (S-3):
         - You created a branch, made changes, committed 3 times.
         - Now you want to prepare a PR following best practices.
         - You also want to impress the team & manager.
-    + Question for S-2 (Q-2): what do you do?
-    + Options (for Q-2):
-        - O2-1: 
+    + Question for S-3 (Q-3): what do you do?
+    + Options (for Q-3):
+        - O3-1: 
             ~ Keep it simple and just click "Create PR" on web UI, 
             ~ After pushing your branch to remote feat3 with '-u' option.
-        - O2-2: get fancy and rebase with squash, then push, then create PR.
+        - O3-2: get fancy and rebase with squash, then push, then create PR.
 
 _ Correct Answers and comments _
 
 * A-1 for S-1:
-    + O1-1: wrong. `git add` is not needed as `commit -a` stages the changes.
-    + O1-2: wrong.
+    + A1-1 for O1-1: wrong. `git add` is not needed as `commit -a` stages the changes.
+    + A1-2 for O1-2: wrong.
         - There is no default remote, not even main.
         - We don't push changes directly to PROD.
-    + O1-3: wrong. As silly as it looks, I said this during an interview once.
-    + O1-4: correct.
+    + A1-3 for O1-3: wrong. As silly as it looks, I said this during an interview once.
+    + A1-4 for O1-4: correct.
 
 * A-2 for S-2:
-    + O2-1: completely fine.
-    + O2-2: 
+    + A2-1 for O2-1:
+        ' There's no 'remote' option for either `checkout` or `switch`.
+        ' There's no correct option for this.
+        ' Neither command will select a remote branch.
+    + A2-2 for O2-2:
+        ' Correct (assuming branch name is unambiguous across your configured remotes).
+        ' Also valid: `git fetch origin` # Will fetch all remote branches.
+    + A2-3 for O2-3:
+        ' It IS possible (see A2-2, O2-2 above).
+        ' It is valid to connect to where the remote branch exists, but unnecessary.
+        ' Also: what if you don't have the required permissions to connect to the Jenkins Agent?
+    + A2-4 for O2-4: there's no 'pull' option for `branch` command.
+    + A2-5 for O2-5: there's no 'fetch' subcommand for `remote`.
+    + A2-6 for O2-6: 
+        ' Wrong.
+        ' Doing `git pull` on main does not fetch remote branches.
+        ' This is just `git fetch origin main` (+ merge, obviously).
+
+* A-3 for S-3:
+    + A3-1 for O3-1: completely fine (my CloudOps team does this).
+    + A3-2 for O3-2: 
         - Ideal to make code review easier (single commit).
         - Process:
-            A-2-2.1: Fetch latest changes from PROD:
+            A-3-2.1: Fetch latest changes from PROD:
                 ~ $ git switch feat3
                 ~ $ git pull origin main --rebase
-            A-2-2.2: Backup history locally:
+            A-3-2.2: Backup history locally:
                 # Make a backup ref before squashing (keep 3-commit history):
                 ; $ git branch backup_<DATE>/feat3
-            A-2-2.3: Rebase interactively to squash commits into one:
+            A-3-2.3: Rebase interactively to squash commits into one:
                 ; $ git log --oneline -5
                 # Make sure there are 3 commits above "origin/main, origin/HEAD, main".
                 ; $ git rebase --verbose --interactive HEAD~3
-            A-2-2.4: Push (for the first time) and set upstream:
+            A-3-2.4: Push (for the first time) and set upstream:
                 ~ $ git push --set-upstream origin feat3
-            A-2-2.5: Create PR:
+            A-3-2.5: Create PR:
                 ~ Go to GitHub web UI and click on "Create PR".
